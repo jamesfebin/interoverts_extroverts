@@ -81,7 +81,64 @@ people_extrovert(people_id) :-
 
 
 
+@extraction
+people_introvert?(
+  @key
+  @references(relation="people", column="id", alias="people")
+  people_id int
+).
 
+people_introvert(people_id) = NULL::BOOLEAN :- people_personality(people_id,_,_,_,_,_,_,_,_,_).
+
+@weight(-2)
+people_introvert(people_id) :-
+   people_personality(people_id,party_life,_,_,_,_,_,_,_,_),
+   party_life>3.
+
+@weight(2)
+people_introvert(people_id) :-
+   people_personality(people_id,_,dont_talk_lot,_,_,_,_,_,_,_),
+   dont_talk_lot>3.
+
+
+@weight(-2)
+people_introvert(people_id) :-
+   people_personality(people_id,_,_,comfortable_with_people,_,_,_,_,_,_),
+   comfortable_with_people>3.
+
+@weight(-2)
+people_introvert(people_id) :-
+   people_personality(people_id,_,_,_,initiate_conversation,_,_,_,_,_),
+   initiate_conversation>3.
+
+@weight(2)
+people_introvert(people_id) :-
+   people_personality(people_id,_,_,_,_,little_to_say,_,_,_,_),
+   little_to_say>3.
+
+
+@weight(-2)
+people_introvert(people_id) :-
+   people_personality(people_id,_,_,_,_,_,talk_to_different_people,_,_,_),
+   talk_to_different_people>3.
+
+
+@weight(2)
+people_introvert(people_id) :-
+   people_personality(people_id,_,_,_,_,_,_,dont_like_attention,_,_),
+   dont_like_attention>3.
+
+
+@weight(-2)
+people_introvert(people_id) :-
+   people_personality(people_id,_,_,_,_,_,_,_,like_attention,_),
+   like_attention>3.
+
+
+@weight(2)
+people_introvert(people_id) :-
+   people_personality(people_id,_,_,_,_,_,_,_,_,quite_with_strangers),
+   quite_with_strangers>3.
 
 
 
