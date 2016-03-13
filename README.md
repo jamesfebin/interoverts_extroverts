@@ -1,3 +1,2 @@
-# Leadership Candidate Curator
-
+# Introvert, Extrovert 
 
