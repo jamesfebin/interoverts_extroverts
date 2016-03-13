@@ -1,0 +1,86 @@
+
+# Gender 1 for male , 2 for female , 3 for other , 0 if missed
+
+people(
+  id int,
+  age int,
+  gender int,
+  country text
+).
+
+people_personality(
+  people_id  int,
+  party_life int,
+  dont_talk_lot int,
+  comfortable_with_people int,
+  initiate_conversation int,
+  little_to_say int,
+  talk_to_different_people int,
+  dont_like_attention int,
+  like_attention int,
+  quite_with_strangers int
+).
+
+@extraction
+people_leadership_skills?(
+  @key
+  @references(relation="person", column="id", alias="people")
+  people_id int
+).
+
+
+people_leadership_skills(people_id) = NULL::BOOLEAN :- people_personality(people_id,_,_,_,_,_,_,_,_,_,_).
+
+@weight(2)
+people_leadership_skills(people_id) :-
+   people_personality(people_id,comfort_others,_,_,_,_,_,_,_,_,_),
+   comfort_others>3.
+
+@weight(2)
+people_leadership_skills(people_id) :-
+   people_personality(people_id,_,_,_,_,_,_,_,_,_,accuracy),
+   accuracy>80.
+
+@weight(2)
+people_leadership_skills(people_id) :-
+   people_personality(people_id,_,bring_people_together,_,_,_,_,_,_,_,_),
+   bring_people_together>3.
+
+
+@weight(2)
+people_leadership_skills(people_id) :-
+   people_personality(people_id,_,_,cheer_people,_,_,_,_,_,_,_),
+   cheer_people>3.
+
+@weight(-3)
+people_leadership_skills(people_id) :-
+   people_personality(people_id,_,_,_,dislike_myself,_,_,_,_,_,_),
+   dislike_myself>3.
+
+@weight(-2)
+people_leadership_skills(people_id) :-
+   people_personality(people_id,_,_,_,_,wait_for_others,_,_,_,_,_),
+   wait_for_others>3.
+
+@weight(-2)
+people_leadership_skills(people_id) :-
+   people_personality(people_id,_,_,_,_,_,difficulty_approach_others,_,_,_,_),
+   difficulty_approach_others>3.
+
+
+@weight(-3)
+people_leadership_skills(people_id) :-
+   people_personality(people_id,_,_,_,_,_,_,distrust_people,_,_,_),
+   distrust_people>3.
+
+@weight(-2)
+people_leadership_skills(people_id) :-
+   people_personality(people_id,_,_,_,_,_,_,_,afraid_doing_things,_,_),
+   afraid_doing_things>3.
+
+@weight(2)
+people_leadership_skills(people_id) :-
+   people_personality(people_id,_,_,_,_,_,_,_,_,listener,_),
+   listener>3.
+
+

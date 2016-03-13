@@ -1,1 +1,1 @@
-postgresql://postgres@febinsvm:5432/deepdive_person_postgres
+postgresql://postgres@febinsvm:5432/deepdive_person_big5_postgres
